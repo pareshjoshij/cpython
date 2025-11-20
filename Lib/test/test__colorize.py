@@ -79,10 +79,10 @@ class TestColorizeFunction(unittest.TestCase):
                 check({'TERM': 'xterm'}, fallback, fallback)
                 check({'TERM': ''}, fallback, fallback)
                 check({'FORCE_COLOR': '1'}, fallback, True)
-                check({'FORCE_COLOR': '0'}, fallback, True)
+                check({'FORCE_COLOR': '0'}, fallback, fallback)
                 check({'FORCE_COLOR': ''}, fallback, fallback)
                 check({'NO_COLOR': '1'}, fallback, False)
-                check({'NO_COLOR': '0'}, fallback, False)
+                check({'NO_COLOR': '0'}, fallback, fallback)
                 check({'NO_COLOR': ''}, fallback, fallback)
 
             check({'TERM': 'dumb', 'FORCE_COLOR': '1'}, False, True)
@@ -94,7 +94,7 @@ class TestColorizeFunction(unittest.TestCase):
                 with unittest.mock.patch("sys.flags", flags):
                     check({'PYTHON_COLORS': '1'}, True, True)
                     check({'PYTHON_COLORS': '1'}, False, not ignore_environment)
-                    check({'PYTHON_COLORS': '0'}, True, ignore_environment)
+                    check({'PYTHON_COLORS': '0'}, True, True)
                     check({'PYTHON_COLORS': '0'}, False, False)
                     for fallback in False, True:
                         check({'PYTHON_COLORS': 'x'}, fallback, fallback)
@@ -102,7 +102,7 @@ class TestColorizeFunction(unittest.TestCase):
 
                     check({'TERM': 'dumb', 'PYTHON_COLORS': '1'}, False, not ignore_environment)
                     check({'NO_COLOR': '1', 'PYTHON_COLORS': '1'}, False, not ignore_environment)
-                    check({'FORCE_COLOR': '1', 'PYTHON_COLORS': '0'}, True, ignore_environment)
+                    check({'FORCE_COLOR': '1', 'PYTHON_COLORS': '0'}, True, True)
 
     @unittest.skipUnless(sys.platform == "win32", "requires Windows")
     def test_colorized_detection_checks_on_windows(self):
